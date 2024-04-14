@@ -19,9 +19,9 @@ bool compareStrs(const char *str1, const char *expr) {
 		str1++; expr++;
 	}
 
-	if (*expr == '\0') return true;							// If reached end of expr without returning false, str1 contains expr
+	if (*expr == '\0') return true;			// If reached end of expr without returning false, str1 contains expr
 
-	return false;											// Otherwise str1 reached end before expr, meaning it could not contain expr
+	return false;					// Otherwise str1 reached end before expr, meaning it could not contain expr
 }
 
 
@@ -30,15 +30,15 @@ bool compareStrs(const char *str1, const char *expr) {
 bool strContainsExpr(const char *str, const char *expr) {
 	int str_len = strLen(str), expr_len = strLen(expr);
 
-	while (str_len > expr_len) {							// Guard to prevent unneccessary calls to compareStrs, otherwise impossible scenarios (like str_len < expr_len containing expr)
-		if (*str == *expr) {								// would still result in call to compareStrs as long as *str == *expr
+	while (str_len > expr_len) {			// Guard to prevent unneccessary calls to compareStrs, otherwise impossible scenarios (like str_len < expr_len containing expr)
+		if (*str == *expr) {			// would still result in call to compareStrs as long as *str == *expr
 			if (compareStrs(str, expr))	
 				return true;
 			}
 		str++; str_len--;
 	}
 
-	if (str_len < expr_len) return false;					// Not possible for str to contain expr
+	if (str_len < expr_len) return false;		// Not possible for str to contain expr
 
 	if (str_len == expr_len) return compareStrs(str, expr);
 
