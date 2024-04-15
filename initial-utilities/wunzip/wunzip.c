@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 		filename = argv[i];
 		fp = fopen(filename, "r");
 		if (fp == NULL) {
-			printf("wunzip failed to open file\n");
+			printf("wunzip: unable to open file\n");
 			exit(1);
 		}
 		do {
