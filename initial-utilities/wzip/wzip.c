@@ -34,7 +34,6 @@ int main(int argc, char *argv[]) {
 
 		while (getline(&line_buffer, &buffer_size, fp) != -1) {
 			compare_char = line_buffer;
-			//printf("compare_char: %c\n", *(compare_char));
 			char c;
 			if (carry_c != '\0') {
 				c = carry_c;
@@ -45,7 +44,6 @@ int main(int argc, char *argv[]) {
 					count++;
 				if (c != *compare_char) {
 					fwrite(&count, sizeof(int), 1, stdout);
-					//printf("%d", count);
 					fwrite(&c, sizeof(char), 1, stdout);
 					c = *compare_char;
 					count = 1;
