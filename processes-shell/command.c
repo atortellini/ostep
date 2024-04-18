@@ -7,7 +7,9 @@
 #include <string.h>
 
 
-static bool strsEqual(restrict const char *str1, restrict const char *str2) {
+#define MAX_ARGS 4
+
+static bool strsEqual(const char *str1, const char *str2) {
 	while (*str1 != '\0' && *str2 != '\0') {
 		if (*str1 != *str2) return false;
 		str1++; str2++;
@@ -18,7 +20,7 @@ static bool strsEqual(restrict const char *str1, restrict const char *str2) {
 }
 
 
-static void checkInBuilt(restrict struct Command *command) {
+static void checkInBuilt(struct Command *restrict command) {
 	if (command == NULL) return;
 	if (command->cmd == NULL) return;
 
@@ -40,7 +42,7 @@ static void checkInBuilt(restrict struct Command *command) {
 
 }
 
-struct Command *createComamnd(const char *cmd) {
+struct Command *createCommand(const char *cmd) {
 	struct Command *new_command = (struct Command *)malloc(sizeof(struct Command));
 	if (new_command == NULL) {
 		fprintf(stderr, "Malloc failed to create new Command.\n");
@@ -52,12 +54,68 @@ struct Command *createComamnd(const char *cmd) {
 		exit(1);
 	}
 
+	new_command->args = (char **)malloc(sizeof(char *) * (MAX_ARGS + 1));
+	if (new_command->args == NULL) {
+		fprintf(stderr, "Malloc failed to allocate args array for new Command.\n");
+		exit(1);
+	}
+	for (unsigned i = 0; i<=MAX_ARGS; i++) {
+		new_command->args[i] = NULL;
+	}
+
+	new_command->num_args = 0;
+	new_command->max_args = MAX_ARGS;
 	checkInBuilt(new_command);
 
 	new_command->num_args = 0;
 	new_command->next = NULL;
+
+	return new_command;
 }
 
 
+inline static void expandArgsArray(struct Command *restrict command) {
+	if (command == NULL) return;
+	unsigned new_max = command->max_args + MAX_ARGS;
+	command->args = realloc(command->args, sizeof(char *) * (new_max + 1));
+	if (command->args == NULL) {
+		fprintf(stderr, "Failed to expand args array.\n");
+		exit(1);
+	}
+	for (unsigned i=command->max_args+1;i<=new_max;i++) {
+		command->args[i] = NULL;
+	}
+	command->max_args = new_max;
+}
 
-struct Command *setArgs(struct Command *cmd, )
+
+void setArgs(struct Command *restrict command, const char *arg) {
+	if (command == NULL || arg == NULL) return;
+
+	if (command->max_args == command->num_args)
+		expandArgsArray(command);
+
+	char *arg_dup = strdup(arg);
+	if (arg_dup == NULL) {
+		fprintf(stderr, "Failed to duplicate arg for command.\n");
+		return;
+	}
+
+	command->args[command->num_args++] = arg_dup;
+
+}
+
+
+void deleteCommand(struct Command *restrict command) {
+	if (command == NULL) return;
+
+	free(command->cmd);
+
+	for (unsigned i=0;i<command->num_args;i++) {
+		free(command->args[i]);
+	}
+	free(command->args);
+	free(command);
+}
+
+

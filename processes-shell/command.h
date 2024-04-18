@@ -7,12 +7,16 @@ struct Command {
 
 	char *cmd;
 	char **args;
-	enum IN_BUILT type;
 	unsigned num_args;
+	unsigned max_args;
+	enum IN_BUILT type;
 	struct Command *next;
 };
 
+struct Command *createCommand(const char *cmd);
 
+void setArgs(struct Command *restrict command, const char *arg);
 
+void deleteCommand(struct Command *restrict command);
 
 #endif

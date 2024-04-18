@@ -3,16 +3,15 @@
 
 
 
-struct Command {
 
-	
-	struct Command *next;
-}
 
+
+#include "command.h"
 
 struct Queue {
-
-}
+	struct Command *head;
+	struct Command *rear;
+};
 
 
 
