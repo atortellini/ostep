@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-enum IN_BUILT { EXIT, PATH, CD, NOT};
+enum IN_BUILT { EXIT, PATH, CD, PROG};
 
 struct Command {
 
