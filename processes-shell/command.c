@@ -20,7 +20,7 @@ static bool strsEqual(const char *str1, const char *str2) {
 }
 
 
-static void checkInBuilt(struct Command *restrict command) {
+static void checkInBuilt(struct Command *command) {
 	if (command == NULL) return;
 	if (command->cmd == NULL) return;
 
@@ -74,7 +74,7 @@ struct Command *createCommand(const char *cmd) {
 }
 
 
-inline static void expandArgsArray(struct Command *restrict command) {
+inline static void expandArgsArray(struct Command *command) {
 	if (command == NULL) return;
 	unsigned new_max = command->max_args + MAX_ARGS;
 	command->args = realloc(command->args, sizeof(char *) * (new_max + 1));
@@ -89,7 +89,7 @@ inline static void expandArgsArray(struct Command *restrict command) {
 }
 
 
-void setArgs(struct Command *restrict command, const char *arg) {
+void setArgs(struct Command *command, const char *arg) {
 	if (command == NULL || arg == NULL) return;
 
 	if (command->max_args == command->num_args)
@@ -106,7 +106,7 @@ void setArgs(struct Command *restrict command, const char *arg) {
 }
 
 
-void deleteCommand(struct Command *restrict command) {
+void deleteCommand(struct Command *command) {
 	if (command == NULL) return;
 
 	free(command->cmd);

@@ -15,8 +15,8 @@ struct Command {
 
 struct Command *createCommand(const char *cmd);
 
-void setArgs(struct Command *restrict command, const char *arg);
+void setArgs(struct Command *command, const char *arg);
 
-void deleteCommand(struct Command *restrict command);
+void deleteCommand(struct Command *command);
 
 #endif
