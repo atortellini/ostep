@@ -9,7 +9,7 @@
 
 #define MAX_ARGS 4
 
-static bool strsEqual(const char *str1, const char *str2) {
+static bool strsEqual(char const *str1, char const *str2) {
 	while (*str1 != '\0' && *str2 != '\0') {
 		if (*str1 != *str2) return false;
 		str1++; str2++;
@@ -42,7 +42,7 @@ static void checkInBuilt(struct Command *command) {
 
 }
 
-struct Command *createCommand(const char *cmd) {
+struct Command *createCommand(char const *cmd) {
 	struct Command *new_command = (struct Command *)malloc(sizeof(struct Command));
 	if (new_command == NULL) {
 		fprintf(stderr, "Malloc failed to create new Command.\n");
@@ -74,7 +74,7 @@ struct Command *createCommand(const char *cmd) {
 }
 
 
-inline static void expandArgsArray(struct Command *command) {
+static void expandArgsArray(struct Command *command) {
 	if (command == NULL) return;
 	unsigned new_max = command->max_args + MAX_ARGS;
 	command->args = realloc(command->args, sizeof(char *) * (new_max + 1));
@@ -89,7 +89,7 @@ inline static void expandArgsArray(struct Command *command) {
 }
 
 
-void setArgs(struct Command *command, const char *arg) {
+void setArgs(struct Command *command, char const *arg) {
 	if (command == NULL || arg == NULL) return;
 
 	if (command->max_args == command->num_args)

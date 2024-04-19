@@ -2,7 +2,7 @@
 #define INBUILT_H
 
 
-void cd_ib(restrict const char *args);
+void cd_ib(char const *args);
 
 void path_ib(restrict const char *args);
 
