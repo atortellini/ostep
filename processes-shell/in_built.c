@@ -1,10 +1,10 @@
 #include "in_built.h"
-#include "path.h"
+
 
 #include <unistd.h>
 #include "stdio.h"
 
-void cd_ib(char const **args, int const num_args) {
+void cd_ib(char const **args, unsigned const num_args) {
 	if (num_args != 1) {
 		fprintf(stderr, "An error has occurred\n");
 		return;
@@ -18,17 +18,23 @@ void cd_ib(char const **args, int const num_args) {
 }
 
 
-void path_ib(char const **args, int const num_args, struct Path *curr_path) {
+void path_ib(char const **args, unsigned const num_args, struct Path *curr_path) {
 	if (args == NULL) {
-		fprintf("NULL args passed to path.\n");
+		fprintf(stderr, "NULL args passed to path.\n");
+		return;
+	}
+	if (!num_args) {
+		clearPath(curr_path);
 		return;
 	}
 
-
+	setPath(curr_path, args, num_args);
 }
 
 
 
-void exit(int const num_args) {
+void exit_ib(unsigned const num_args) {
 
 }
+
+
