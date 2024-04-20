@@ -47,9 +47,3 @@ void emptyQueue(struct Queue *queue) {
 		deleteCommand(temp);
 	
 }
-
-int main(void) {
-	return 0;
-}
-
-

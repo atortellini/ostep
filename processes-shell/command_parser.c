@@ -1,49 +1,61 @@
+#include "qmanager.h"
 #include "command_parser.h"
-#include <stdio.h>
+
 #include <stdlib.h>
 #include <string.h>
 
-void parser(struct Queue *restrict inbuilt_q, struct Queue *restrict command_q, FILE *restrict fp) {
-	if (inbuilt_q == NULL || commmand_q == NULL || fp == NULL) return;
 
-	char *line_buff = NULL, *cmd = NULL, *space = " "; size_t lbuff_size = 0; // Should think about, once I get this to work, if I want to constantly have line_buff redeclared and intiailzied every time a line needs to be parsed
+
+
+
+
+
+int parser(struct Queue_Manager *qmanager, FILE *restrict fp, char **file_out) {
+	if (qmanager == NULL || fp == NULL) return 1;
+
+	char *line_buff = NULL, *cmd = NULL, *delim = " \n"; 
+	size_t lbuff_size = 0; // Should think about, once I get this to work, if I want to constantly have line_buff redeclared and intiailzied every time a line needs to be parsed
 	ssize_t linelen;
 
-	while (cmd == NULL) {
-		if ((linelen = getline(&line_buff, &lbuff_size, fp)) == -1) {
-			fprintf(stderr, "Failed to read line from input.\n");
-			return;
-		}
-		cmd = strtok(line_buff, space);
-		if (cmd == NULL) continue;
+
+	if ((linelen = getline(&line_buff, &lbuff_size, fp)) == -1) {
+		fprintf(stderr, "Failed to read line from input.\n");
+		return 1;
+	}
+	*file_out = NULL;
+	cmd = strtok(line_buff, delim);
+	if (cmd == NULL) return 1;
+	do {
 		switch(*cmd) {
-			case '>': case '&': 
-				fprintf(stderr, "An error has occured.\n");
-				cmd = NULL;
-				continue;
+		case '>': case '&':
+			fprintf(stderr, "An error has occured.\n");
+			return 1;
 		}
-	}
-	// Should prob figure out how to simplify all code below this line to be a while loop
-	struct Command *new_command = createCommand(cmd);
-	
-	char *arg = strtok(NULL, space);
-	if (arg == NULL) {
-		switch(new_command->type) {
-			case NOT: enQueue(command_q, new_command); free(line_buff); return;
-			default: enQueue(inbuilt_q, new_command); free(line_buff); return;
-		}
-	}
 
-	switch (*arg) {
-		case '&': case '>':
-			if (new_command->type == NOT) {
-				enQueue(command_q, new_command);
-				arg = strtok(NULL, space);
-			} else {
-				enQueue(inbuilt_q, new_command);
-				free(line_buff);
-				return;
+		struct Command *new_command = createCommand(cmd);
+		char *arg;
+		while ((arg = strtok(NULL, delim)) != NULL) {
+			switch(*arg) {
+				case '&': managedEnQueue(qmanager, new_command); continue; // With how I'm checking this it also allows for input of: cmd0 & cmd1 &, to work without error
+				case '>': {
+					managedEnQueue(qmanager, new_command);
+					char *file = strtok(NULL, delim); // For right now im just going to assume that the user doesnt screw with outputting to file
+					char *temp = strdup(file);
+					if (temp == NULL) {
+						fprintf(stderr, "Failed to duplicate file output string.\n");
+						return 1;
+					}
+					*file_out = temp;
+					return 0;
+				}
 			}
-	}
+			setArgs(new_command, arg);
+		}
+		managedEnQueue(qmanager, new_command);
 
+	} while ((cmd = strtok(NULL, delim)) != NULL);
+
+	return 0;
 }	
+
+

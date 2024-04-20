@@ -1,8 +1,9 @@
 #ifndef COMMAND_PARSER_H
 #define COMMAND_PARSER_H
-#include "queue.h"
 
-void parser(struct Queue *restrict inbuilt_q, struct Queue *restrict command_q);
+#include <stdio.h>
+
+int parser(struct Queue_Manager *qmanager, FILE *restrict fp, char **file_out);
 
 
 #endif
