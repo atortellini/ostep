@@ -10,20 +10,19 @@
 
 
 
-int parser(struct Queue_Manager *qmanager, FILE *restrict fp, char **file_out) {
+int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size, FILE *restrict fp, char **file_out) {
 	if (qmanager == NULL || fp == NULL) return 1;
 
-	char *line_buff = NULL, *cmd = NULL, *delim = " \n"; 
-	size_t lbuff_size = 0; // Should think about, once I get this to work, if I want to constantly have line_buff redeclared and intiailzied every time a line needs to be parsed
+	char *cmd = NULL, *delim = " \n"; // Think about moving delim initializaiton since will occur every time parser is called
 	ssize_t linelen;
 
 
-	if ((linelen = getline(&line_buff, &lbuff_size, fp)) == -1) {
+	if ((linelen = getline(line_buff, lbuff_size, fp)) == -1) {
 		fprintf(stderr, "Failed to read line from input.\n");
 		return 1;
 	}
 	*file_out = NULL;
-	cmd = strtok(line_buff, delim);
+	cmd = strtok(*line_buff, delim);
 	if (cmd == NULL) return 1;
 	do {
 		switch(*cmd) {
