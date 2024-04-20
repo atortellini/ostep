@@ -4,7 +4,6 @@
 enum IN_BUILT { EXIT, PATH, CD, PROG };
 
 struct Command {
-
 	char *cmd;
 	char **args;
 	unsigned num_args;
@@ -18,5 +17,6 @@ struct Command *createCommand(char const *cmd);
 void setArgs(struct Command *command, char const *arg);
 
 void deleteCommand(struct Command *command);
+
 
 #endif

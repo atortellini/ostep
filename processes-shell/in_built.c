@@ -1,8 +1,10 @@
+
 #include "in_built.h"
 
 
 #include <unistd.h>
 #include "stdio.h"
+#include <stdlib.h>
 
 void cd_ib(char const **args, unsigned const num_args) {
 	if (num_args != 1) {
@@ -34,7 +36,11 @@ void path_ib(char const **args, unsigned const num_args, struct Path *curr_path)
 
 
 void exit_ib(unsigned const num_args) {
-
+	if (num_args) {
+		fprintf(stderr, "An error has occured\n");
+		return;
+	}
+	exit(0);
 }
 
 

@@ -1,10 +1,11 @@
+
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
 
 
 
-inline void initializeQueue(struct Queue *queue) {
+void initializeQueue(struct Queue *queue) {
 	if (queue == NULL) return;
 
 	queue->head = NULL;
@@ -40,11 +41,15 @@ struct Command *deQueue(struct Queue *queue) {
 }
 
 
-inline void emptyQueue(struct Queue *queue) {
+void emptyQueue(struct Queue *queue) {
 	struct Command *temp;
 	while ((temp = deQueue(queue)) != NULL)
 		deleteCommand(temp);
 	
+}
+
+int main(void) {
+	return 0;
 }
 
 
