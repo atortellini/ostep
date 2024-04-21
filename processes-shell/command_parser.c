@@ -35,23 +35,25 @@ int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size,
 		struct Command *new_command = createCommand(cmd);
 		char *arg;
 		while ((arg = strtok(NULL, delim)) != NULL) {
-			switch(*arg) {
-				case '&': managedEnQueue(qmanager, new_command); continue; // With how I'm checking this it also allows for input of: cmd0 & cmd1 &, to work without error
-				case '>': {
-					managedEnQueue(qmanager, new_command);
-					char *file = strtok(NULL, delim); // For right now im just going to assume that the user doesnt screw with outputting to file
-					char *temp = strdup(file);
-					if (temp == NULL) {
-						fprintf(stderr, "Failed to duplicate file output string.\n");
-						return 1;
-					}
-					*file_out = temp;
-					return 0;
-				}
+			if (*arg == '&') {
+				managedEnQueue(qmanager, new_command);
+				break; // With how I'm checking this it also allows for input of: cmd0 & cmd1 &, to work without error
 			}
+			if (*arg == '>') {
+				managedEnQueue(qmanager, new_command);
+				char *file = strtok(NULL, delim); // For right now im just going to assume that the user doesnt screw with outputting to file
+				char *temp = strdup(file);
+				if (temp == NULL) {
+					fprintf(stderr, "Failed to duplicate file output string.\n");
+					return 1;
+				}
+				*file_out = temp;
+				return 0;
+			}
+		
 			setArgs(new_command, arg);
 		}
-		managedEnQueue(qmanager, new_command);
+		if (arg == NULL) managedEnQueue(qmanager, new_command);
 
 	} while ((cmd = strtok(NULL, delim)) != NULL);
 

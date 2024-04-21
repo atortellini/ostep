@@ -64,11 +64,11 @@ void forker(struct Queue *queue, struct Path *pth, char const *file_out) {
 						exit(1);
 					}
 				}
-				// printf("THESE ARE THE ARGS: %s\n", cmd->args[1]);
 				execv(path_buff, cmd->args);
 
 			}
 			fprintf(stderr, "An error has occured.\n");
+			exit(1);
 		}
 		deleteCommand(cmd);
 	}

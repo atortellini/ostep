@@ -11,15 +11,6 @@
 #include <sys/wait.h>
 
 
-// enum mode {BATCH, INTER};
-
-// struct Shell_S {
-// 	// char **path;
-// 	enum mode state;
-// 	const char *error_message;
-// } Shell;
-
-
 int main(int argc, char *argv[]) {
 	struct Path pth; initializePath(&pth, "/bin");
 	FILE *parse_input = (argc == 1) ? stdin : fopen(argv[1], "r"); // Temporary
