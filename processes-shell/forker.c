@@ -27,6 +27,7 @@ void executor(struct Queue *queue, struct Path *pth) {
 }
 
 void forker(struct Queue *queue, struct Path *pth, char const *file_out) {
+	errno = 0;
 	while (!isEmpty(queue)) {
 		struct Command *cmd = deQueue(queue);
 		int rv = fork();
