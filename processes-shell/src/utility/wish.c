@@ -1,7 +1,7 @@
 #include <stdbool.h>
-#include "qmanager.h"
-#include "command_parser.h"
-#include "path.h"
+#include <queue/qmanager.h>
+#include <commands/command_parser.h>
+#include <path/path.h>
 #include "forker.h"
 
 #include <stdio.h>
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 	while (1) {
 		if (argc == 1) printf("wish> ");
 		if (parser(&manager, &line_buff, &lbuff_size, parse_input, &file_out) == 1) {
-			continue;
+			break;
 		}
 		switch (giveNonEmptyQ(&manager)) {
 			case -1: continue;

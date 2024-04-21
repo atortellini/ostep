@@ -1,6 +1,6 @@
 #ifndef INBUILT_H
 #define INBUILT_H
-#include "path.h"
+#include <path/path.h>
 
 void cd_ib(char **args, unsigned const num_args);
 

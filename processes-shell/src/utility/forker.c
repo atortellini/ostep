@@ -1,6 +1,6 @@
 #include <stdbool.h>
-#include "queue.h"
-#include "in_built.h"
+#include <queue/queue.h>
+#include <in_built/in_built.h>
 #include "forker.h"
 
 #include <stdlib.h>
@@ -67,7 +67,7 @@ void forker(struct Queue *queue, struct Path *pth, char const *file_out) {
 				execv(path_buff, cmd->args);
 
 			}
-			fprintf(stderr, "An error has occured.\n");
+			fprintf(stderr, "An error has occurred\n");
 			exit(1);
 		}
 		deleteCommand(cmd);

@@ -1,5 +1,5 @@
 #include <stdbool.h>
-#include "qmanager.h"
+#include <queue/qmanager.h>
 #include "command_parser.h"
 
 #include <stdlib.h>
@@ -19,7 +19,6 @@ int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size,
 
 
 	if ((linelen = getline(line_buff, lbuff_size, fp)) == -1) {
-		fprintf(stderr, "Failed to read line from input.\n");
 		return 1;
 	}
 	*file_out = NULL;
@@ -28,7 +27,7 @@ int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size,
 	do {
 		switch(*cmd) {
 		case '>': case '&':
-			fprintf(stderr, "An error has occured.\n");
+			fprintf(stderr, "An error has occurred\n");
 			return 1;
 		}
 
@@ -40,8 +39,13 @@ int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size,
 				break; // With how I'm checking this it also allows for input of: cmd0 & cmd1 &, to work without error
 			}
 			if (*arg == '>') {
+				char *file = strtok(NULL, delim);
+				char *check_end = strtok(NULL, delim);
+				if (file == NULL || check_end != NULL) {
+					fprintf(stderr, "An error has occurred\n");
+					return 1;
+				} // For right now im just going to assume that the user doesnt screw with outputting to file
 				managedEnQueue(qmanager, new_command);
-				char *file = strtok(NULL, delim); // For right now im just going to assume that the user doesnt screw with outputting to file
 				char *temp = strdup(file);
 				if (temp == NULL) {
 					fprintf(stderr, "Failed to duplicate file output string.\n");

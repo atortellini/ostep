@@ -3,7 +3,7 @@
 
 
 #include <unistd.h>
-#include "stdio.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 void cd_ib(char **args, unsigned const num_args) {
@@ -37,7 +37,7 @@ void path_ib(char **args, unsigned const num_args, struct Path *curr_path) {
 
 void exit_ib(unsigned const num_args) {
 	if (num_args) {
-		fprintf(stderr, "An error has occured\n");
+		fprintf(stderr, "An error has occurred\n");
 		return;
 	}
 	exit(0);

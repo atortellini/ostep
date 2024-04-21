@@ -1,7 +1,7 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
-#include "command.h"
+#include <commands/command.h>
 
 struct Queue {
 	struct Command *head;
