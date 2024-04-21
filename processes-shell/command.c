@@ -59,15 +59,23 @@ struct Command *createCommand(char const *cmd) {
 		fprintf(stderr, "Malloc failed to allocate args array for new Command.\n");
 		exit(1);
 	}
+
+
+	
+
 	for (unsigned i = 0; i<=MAX_ARGS; i++) {
 		new_command->args[i] = NULL;
 	}
 
-	new_command->num_args = 0;
+	
 	new_command->max_args = MAX_ARGS;
 	checkInBuilt(new_command);
 
-	new_command->num_args = 0;
+	if (new_command->type == PROG) {
+		new_command->args[0] = new_command->cmd;
+		new_command->num_args = 1;
+	} else new_command->num_args = 0;
+
 	new_command->next = NULL;
 
 	return new_command;
@@ -109,7 +117,7 @@ void setArgs(struct Command *command, char const *arg) {
 void deleteCommand(struct Command *command) {
 	if (command == NULL) return;
 
-	free(command->cmd);
+	// free(command->cmd);
 
 	for (unsigned i=0;i<command->num_args;i++) {
 		free(command->args[i]);

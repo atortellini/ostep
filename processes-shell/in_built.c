@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 void cd_ib(char **args, unsigned const num_args) {
-	if (num_args != 1) {
+	if (num_args > 1) {
 		fprintf(stderr, "An error has occurred\n");
 		return;
 	}
