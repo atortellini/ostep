@@ -1,7 +1,8 @@
-
+#include <stdbool.h>
 #include "queue.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 
 
 
@@ -46,4 +47,11 @@ void emptyQueue(struct Queue *queue) {
 	while ((temp = deQueue(queue)) != NULL)
 		deleteCommand(temp);
 	
+}
+
+
+bool isEmpty(struct Queue *queue) {
+	if (queue == NULL) return true;
+	if (queue->head == NULL && queue->rear == NULL) return true;
+	return false;
 }

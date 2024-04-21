@@ -12,6 +12,6 @@ void initializePath(struct Path *pth, char const *default_path);
 
 void clearPath(struct Path *pth); 
 
-void setPath(struct Path *pth, char const **paths, unsigned num_new_paths);
+void setPath(struct Path *pth, char **paths, unsigned num_new_paths);
 
 #endif

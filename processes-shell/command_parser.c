@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include "qmanager.h"
 #include "command_parser.h"
 

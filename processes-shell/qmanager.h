@@ -13,5 +13,7 @@ void initQManager(struct Queue_Manager *qmanager);
 
 void managedEnQueue(struct Queue_Manager *qmanager, struct Command *command);
 
+int giveNonEmptyQ(struct Queue_Manager *qmanager);
+
 #endif
 

@@ -16,4 +16,6 @@ struct Command *deQueue(struct Queue *queue);
 
 void emptyQueue(struct Queue *queue);
 
+bool isEmpty(struct Queue *queue);
+
 #endif

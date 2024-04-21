@@ -1,5 +1,8 @@
+#include <stdbool.h>
 #include "qmanager.h"
 #include "command_parser.h"
+#include "path.h"
+#include "forker.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -8,7 +11,7 @@
 #include <sys/wait.h>
 
 
-enum mode {BATCH, INTER};
+// enum mode {BATCH, INTER};
 
 // struct Shell_S {
 // 	// char **path;
@@ -18,6 +21,7 @@ enum mode {BATCH, INTER};
 
 
 int main(int argc, char *argv[]) {
+	struct Path pth; initializePath(&pth, "/bin");
 	FILE *parse_input = (argc == 1) ? stdin : fopen(argv[1], "r"); // Temporary
 	if (parse_input == NULL) {
 		fprintf(stderr, "Unable to open batch file.\n");
@@ -31,14 +35,14 @@ int main(int argc, char *argv[]) {
 		if (parser(&manager, &line_buff, &lbuff_size, parse_input, &file_out) == 1) {
 			continue;
 		}
+		switch (giveNonEmptyQ(&manager)) {
+			case -1: continue;
+			case 0: executor(&(manager.inbuilt_q), &pth); break;
+			case 1: forker(&(manager.command_q), &pth, file_out); break;
 
-		// printf("Command: %s\t Args: %s\n", manager.command_q.rear->cmd, manager.command_q.rear->args[0]);
-
+		}
 	}
-
-
 
 	return 0;
 }
-
 

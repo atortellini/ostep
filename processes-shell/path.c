@@ -50,7 +50,7 @@ static void expandPaths(struct Path *pth, unsigned num_new_paths) {
 
 }
 
-void setPath(struct Path *pth, char const **paths, unsigned num_new_paths) {
+void setPath(struct Path *pth, char **paths, unsigned num_new_paths) {
 	if (pth->num_paths) clearPath(pth);
 	if (num_new_paths > pth->max_paths) {
 		expandPaths(pth, num_new_paths);

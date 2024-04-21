@@ -6,7 +6,7 @@
 #include "stdio.h"
 #include <stdlib.h>
 
-void cd_ib(char const **args, unsigned const num_args) {
+void cd_ib(char **args, unsigned const num_args) {
 	if (num_args != 1) {
 		fprintf(stderr, "An error has occurred\n");
 		return;
@@ -20,7 +20,7 @@ void cd_ib(char const **args, unsigned const num_args) {
 }
 
 
-void path_ib(char const **args, unsigned const num_args, struct Path *curr_path) {
+void path_ib(char **args, unsigned const num_args, struct Path *curr_path) {
 	if (args == NULL) {
 		fprintf(stderr, "NULL args passed to path.\n");
 		return;
