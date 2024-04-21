@@ -43,12 +43,14 @@ int parser(struct Queue_Manager *qmanager, char **line_buff, size_t *lbuff_size,
 				char *check_end = strtok(NULL, delim);
 				if (file == NULL || check_end != NULL) {
 					fprintf(stderr, "An error has occurred\n");
+					deleteCommand(new_command);
 					return 1;
 				} // For right now im just going to assume that the user doesnt screw with outputting to file
 				managedEnQueue(qmanager, new_command);
 				char *temp = strdup(file);
 				if (temp == NULL) {
 					fprintf(stderr, "Failed to duplicate file output string.\n");
+					deleteCommand(new_command);
 					return 1;
 				}
 				*file_out = temp;
